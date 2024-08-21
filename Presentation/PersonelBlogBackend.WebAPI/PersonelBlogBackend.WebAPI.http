@@ -1,0 +1,6 @@
+@PersonelBlogBackend.WebAPI_HostAddress = http://localhost:5241
+
+GET {{PersonelBlogBackend.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
