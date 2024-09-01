@@ -1,5 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PersonelBlogBackend.Application.Features.Posts.Commands.CreatePost;
+using PersonelBlogBackend.Application.Features.Posts.Commands.DeletePost;
+using PersonelBlogBackend.Application.Features.Posts.Commands.UpdatePost;
+using PersonelBlogBackend.Application.Features.Posts.Queries.GetAllPost;
+using PersonelBlogBackend.Application.Features.Posts.Queries.GetByIdPost;
 using PersonelBlogBackend.Application.Repositories;
 using PersonelBlogBackend.Application.ViewModels.Posts;
 using PersonelBlogBackend.Domain.Entities;
@@ -13,59 +19,51 @@ namespace PersonelBlogBackend.WebAPI.Controllers
     {
         private readonly IPostReadRepository _postReadRepository;
         private readonly IPostWriteRepository _postWriteRepository;
+        private readonly IMediator _mediator;
 
         public PostsController(
             IPostReadRepository postReadRepository, 
-            IPostWriteRepository postWriteRepository
+            IPostWriteRepository postWriteRepository,
+            IMediator mediator
         )
         {
             _postReadRepository = postReadRepository;
             _postWriteRepository = postWriteRepository;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GetAllPostQueryRequest getAllPostQueryRequest)
         {
-            var posts = _postReadRepository.GetAll(false);
-
-            return Ok(posts);
+            GetAllPostQueryResponse response = await _mediator.Send(getAllPostQueryRequest);
+            return Ok(response);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(string id)
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetById([FromRoute] GetByIdPostQueryRequest getByIdPostQueryRequest)
         {
-            return Ok(await _postReadRepository.GetByIdAsync(id, false));
+            GetByIdPostQueryResponse response = await _mediator.Send(getByIdPostQueryRequest);
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VMCreatePost model)
+        public async Task<IActionResult> Post([FromBody] CreatePostCommandRequest createPostCommandRequest)
         {
-            await _postWriteRepository.AddAsync(new()
-            {
-                Title = model.Title,
-                Content = model.Content,
-            });
-
-            await _postWriteRepository.SaveAsync();
-
+            await _mediator.Send(createPostCommandRequest);
             return StatusCode((int)HttpStatusCode.Created);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(VMUpdatePost model)
+        public async Task<IActionResult> Update([FromBody] UpdatePostCommandRequest updatePostCommandRequest)
         {
-            Post post = await _postReadRepository.GetByIdAsync(model.Id);
-            post.Title = model.Title;
-            post.Content = model.Content;
-            await _postWriteRepository.SaveAsync();
+            await _mediator.Send(updatePostCommandRequest);
             return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete([FromRoute] DeletePostCommandRequest deletePostCommandRequest)
         {
-            await _postWriteRepository.DeleteByIdAsync(id);
-            await _postWriteRepository.SaveAsync();
+            await _mediator.Send(deletePostCommandRequest);
             return Ok();
         }
     }
