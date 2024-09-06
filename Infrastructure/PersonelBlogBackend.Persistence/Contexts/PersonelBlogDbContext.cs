@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PersonelBlogBackend.Domain.Entities;
 using PersonelBlogBackend.Domain.Entities.Common;
+using PersonelBlogBackend.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PersonelBlogBackend.Persistence.Contexts
 {
-    public class PersonelBlogDbContext : DbContext
+    public class PersonelBlogDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public PersonelBlogDbContext(DbContextOptions options) : base(options)
         {

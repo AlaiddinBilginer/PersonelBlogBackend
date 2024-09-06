@@ -16,4 +16,8 @@
     <ProjectReference Include="..\PersonelBlogBackend.Domain\PersonelBlogBackend.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Users\Queries\" />
+  </ItemGroup>
+
 </Project>
