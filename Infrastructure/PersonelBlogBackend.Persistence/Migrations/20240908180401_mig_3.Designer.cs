@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PersonelBlogBackend.Persistence.Contexts;
@@ -11,9 +12,11 @@ using PersonelBlogBackend.Persistence.Contexts;
 namespace PersonelBlogBackend.Persistence.Migrations
 {
     [DbContext(typeof(PersonelBlogDbContext))]
-    partial class PersonelBlogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240908180401_mig_3")]
+    partial class mig_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

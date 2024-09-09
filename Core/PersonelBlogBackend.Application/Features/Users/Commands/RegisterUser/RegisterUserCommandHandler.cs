@@ -18,8 +18,6 @@ namespace PersonelBlogBackend.Application.Features.Users.Commands.RegisterUser
             ApplicationUser user = new ApplicationUser
             {
                 Id = Guid.NewGuid().ToString(),
-                FirstName = request.FirstName,
-                LastName = request.LastName,
                 Email = request.Email,
                 UserName = request.Username
             };
@@ -28,7 +26,7 @@ namespace PersonelBlogBackend.Application.Features.Users.Commands.RegisterUser
 
             RegisterUserCommandResponse response = new() { Succeeded = result.Succeeded };
 
-            if (result.Succeeded)
+            if (result.Succeeded && (request.Password == request.ConfirmPassword))
                 response.Message = "Kayıt işlemi başarıyla gerçekleştirilmiştir";
             else
                 response.Message = "Kayıt işlemi başarısız olmuştur";
