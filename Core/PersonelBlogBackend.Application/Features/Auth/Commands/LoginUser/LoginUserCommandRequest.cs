@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonelBlogBackend.Application.Features.Users.Commands.LoginUser
+namespace PersonelBlogBackend.Application.Features.Auth.Commands.LoginUser
 {
     public class LoginUserCommandRequest : IRequest<LoginUserCommandResponse>
     {

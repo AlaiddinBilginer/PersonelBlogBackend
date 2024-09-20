@@ -1,8 +1,5 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PersonelBlogBackend.Application.Features.Users.Commands.LoginUser;
-using PersonelBlogBackend.Application.Features.Users.Commands.RegisterUser;
 
 namespace PersonelBlogBackend.WebAPI.Controllers
 {
@@ -17,18 +14,5 @@ namespace PersonelBlogBackend.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Register(RegisterUserCommandRequest registerUserCommandRequest)
-        {
-            RegisterUserCommandResponse response = await _mediator.Send(registerUserCommandRequest);
-            return Ok(response);
-        }
-
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Login(LoginUserCommandRequest loginUserCommandRequest)
-        {
-            LoginUserCommandResponse response = await _mediator.Send(loginUserCommandRequest);
-            return Ok(response);
-        }
     }
 }

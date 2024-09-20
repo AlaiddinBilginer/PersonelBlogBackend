@@ -8,21 +8,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonelBlogBackend.Application.Features.Users.Commands.LoginUser
+namespace PersonelBlogBackend.Application.Features.Auth.Commands.LoginUser
 {
-    public class LoginUserCommandResponse 
+    public class LoginUserCommandResponse
     {
     }
 
     public class LoginUserSuccessCommandResponse : LoginUserCommandResponse
     {
-        public bool Success { get; set; } = true;
+        public bool Succeeded { get; set; } = true;
         public Token Token { get; set; }
     }
 
     public class LoginUserErrorCommandResponse : LoginUserCommandResponse
     {
-        public bool Success { get; set; } = false;
+        public bool Succeeded { get; set; } = false;
         public string Message { get; set; }
     }
 }

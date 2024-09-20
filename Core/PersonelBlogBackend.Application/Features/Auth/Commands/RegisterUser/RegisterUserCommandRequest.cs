@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonelBlogBackend.Application.Features.Users.Commands.RegisterUser
+namespace PersonelBlogBackend.Application.Features.Auth.Commands.RegisterUser
 {
     public class RegisterUserCommandRequest : IRequest<RegisterUserCommandResponse>
     {

@@ -1,15 +1,10 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonelBlogBackend.Application.Features.Posts.Commands.CreatePost;
 using PersonelBlogBackend.Application.Features.Posts.Commands.DeletePost;
 using PersonelBlogBackend.Application.Features.Posts.Commands.UpdatePost;
 using PersonelBlogBackend.Application.Features.Posts.Queries.GetAllPost;
 using PersonelBlogBackend.Application.Features.Posts.Queries.GetByIdPost;
-using PersonelBlogBackend.Application.Repositories;
-using PersonelBlogBackend.Application.ViewModels.Posts;
-using PersonelBlogBackend.Domain.Entities;
 using System.Net;
 
 namespace PersonelBlogBackend.WebAPI.Controllers
@@ -18,18 +13,10 @@ namespace PersonelBlogBackend.WebAPI.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly IPostReadRepository _postReadRepository;
-        private readonly IPostWriteRepository _postWriteRepository;
         private readonly IMediator _mediator;
 
-        public PostsController(
-            IPostReadRepository postReadRepository, 
-            IPostWriteRepository postWriteRepository,
-            IMediator mediator
-        )
+        public PostsController(IMediator mediator)
         {
-            _postReadRepository = postReadRepository;
-            _postWriteRepository = postWriteRepository;
             _mediator = mediator;
         }
 
