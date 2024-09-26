@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PersonelBlogBackend.Application.Abstractions;
 using PersonelBlogBackend.Application.Abstractions.Services.Auth;
+using PersonelBlogBackend.Application.Abstractions.Services.User;
 using PersonelBlogBackend.Application.DTOs;
 using PersonelBlogBackend.Application.DTOs.Auth;
 using PersonelBlogBackend.Domain.Entities.Identity;
@@ -17,12 +19,14 @@ namespace PersonelBlogBackend.Infrastructure.Services.Auth
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ITokenHandler _tokenHandler;
+        private readonly IUserService _userService;
 
-        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenHandler tokenHandler)
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenHandler tokenHandler, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenHandler = tokenHandler;
+            _userService = userService;
         }
 
         public async Task<AuthResponse> LoginAsync(LoginRequest request, int accessTokenLifetime)
@@ -38,7 +42,9 @@ namespace PersonelBlogBackend.Infrastructure.Services.Auth
             if (!result.Succeeded)
                 return new AuthResponse { Succeeded = false, Message = "Hatalı şifre girdiniz" };
 
-            Token token = _tokenHandler.CreateAccessToken(10);
+            Token token = _tokenHandler.CreateAccessToken(accessTokenLifetime);
+            await _userService.RenewRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 15);
+
             return new AuthResponse { Succeeded = true, Token = token };
         }
 
@@ -60,6 +66,22 @@ namespace PersonelBlogBackend.Infrastructure.Services.Auth
                 return new AuthResponse { Succeeded = false, Message = "Kayıt işlemi başarısız oldu" };
 
             return new AuthResponse { Succeeded = true, Message = "Kayıt işlemi başarılı oldu, giriş yapabilirsiniz..." };
+        }
+
+        public async Task<AuthResponse> RefreshAccessTokenAsync(string refreshToken)
+        {
+            ApplicationUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+
+            if (user != null && user.RefreshTokenEndDate > DateTime.UtcNow)
+            {
+                Token token = _tokenHandler.CreateAccessToken(15);
+                await _userService.RenewRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 30);
+                return new AuthResponse { Succeeded = true, Token = token };
+            }
+            else
+            {
+                return new AuthResponse { Succeeded = false, Message = "Token geçerli değildir" };
+            }
         }
     }
 }

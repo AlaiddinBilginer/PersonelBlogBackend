@@ -10,5 +10,6 @@ namespace PersonelBlogBackend.Application.Abstractions
     public interface ITokenHandler
     {
         Token CreateAccessToken(int accessTokenLifetime);
+        string CreateRefreshToken();
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using PersonelBlogBackend.Application.Abstractions;
 using PersonelBlogBackend.Application.DTOs;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace PersonelBlogBackend.Infrastructure.Services
@@ -22,7 +23,7 @@ namespace PersonelBlogBackend.Infrastructure.Services
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
-            token.Expiration = DateTime.UtcNow.AddMinutes(accessTokenLifetime);
+            token.Expiration = DateTime.UtcNow.AddSeconds(accessTokenLifetime);
 
             JwtSecurityToken securityToken = new(
                 audience: _configuration["Token:Audience"],
@@ -34,7 +35,20 @@ namespace PersonelBlogBackend.Infrastructure.Services
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             token.AccessToken = tokenHandler.WriteToken(securityToken);
+
+            token.RefreshToken = CreateRefreshToken();
+
             return token;
+        }
+
+        public string CreateRefreshToken()
+        {
+            byte[] number = new byte[32];
+
+            using RandomNumberGenerator random = RandomNumberGenerator.Create();
+            random.GetBytes(number);
+
+            return Convert.ToBase64String(number);
         }
     }
 }

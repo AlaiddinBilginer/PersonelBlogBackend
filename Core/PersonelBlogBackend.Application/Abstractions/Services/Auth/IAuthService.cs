@@ -1,4 +1,5 @@
-﻿using PersonelBlogBackend.Application.DTOs.Auth;
+﻿using PersonelBlogBackend.Application.DTOs;
+using PersonelBlogBackend.Application.DTOs.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace PersonelBlogBackend.Application.Abstractions.Services.Auth
     {
         Task<AuthResponse> LoginAsync(LoginRequest request, int accessTokenLifetime);
         Task<AuthResponse> RegisterAsync(RegisterRequest request);
+        Task<AuthResponse> RefreshAccessTokenAsync(string refreshToken);
     }
 }

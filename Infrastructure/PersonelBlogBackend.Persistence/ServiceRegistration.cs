@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PersonelBlogBackend.Application.Abstractions.Services.User;
 using PersonelBlogBackend.Application.Repositories;
 using PersonelBlogBackend.Domain.Entities.Identity;
 using PersonelBlogBackend.Persistence.Contexts;
 using PersonelBlogBackend.Persistence.Repositories;
+using PersonelBlogBackend.Persistence.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,8 @@ namespace PersonelBlogBackend.Persistence
 
             services.AddScoped<IPostReadRepository, PostReadRepository>();
             services.AddScoped<IPostWriteRepository, PostWriteRepository>();
+
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }

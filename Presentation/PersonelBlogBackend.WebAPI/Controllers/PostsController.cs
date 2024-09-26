@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonelBlogBackend.Application.Features.Posts.Commands.CreatePost;
 using PersonelBlogBackend.Application.Features.Posts.Commands.DeletePost;
@@ -11,6 +12,7 @@ namespace PersonelBlogBackend.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class PostsController : ControllerBase
     {
         private readonly IMediator _mediator;

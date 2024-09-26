@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonelBlogBackend.Application.Features.Auth.Commands.LoginUser;
+using PersonelBlogBackend.Application.Features.Auth.Commands.RefreshToken;
 using PersonelBlogBackend.Application.Features.Auth.Commands.RegisterUser;
 
 namespace PersonelBlogBackend.WebAPI.Controllers
@@ -28,6 +29,13 @@ namespace PersonelBlogBackend.WebAPI.Controllers
         public async Task<IActionResult> Register(RegisterUserCommandRequest request)
         {
             RegisterUserCommandResponse response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("refreshToken")]
+        public async Task<IActionResult> RefreshToken([FromBody]RefreshTokenCommandRequest request)
+        {
+            RefreshTokenCommandResponse response = await _mediator.Send(request);
             return Ok(response);
         }
     }

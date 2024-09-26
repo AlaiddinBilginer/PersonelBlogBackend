@@ -20,7 +20,7 @@ namespace PersonelBlogBackend.Application.Features.Auth.Commands.LoginUser
             {
                 EmailOrUsername = request.EmailOrUsername,
                 Password = request.Password
-            }, 15);
+            }, 20);
 
             if (response.Succeeded)
                 return new LoginUserSuccessCommandResponse { Succeeded = response.Succeeded, Token = response.Token };
