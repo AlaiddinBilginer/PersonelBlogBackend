@@ -1,4 +1,5 @@
 ﻿using PersonelBlogBackend.Application.DTOs;
+using PersonelBlogBackend.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace PersonelBlogBackend.Application.Abstractions
 {
     public interface ITokenHandler
     {
-        Token CreateAccessToken(int accessTokenLifetime);
+        Token CreateAccessToken(int accessTokenLifetime, ApplicationUser user);
         string CreateRefreshToken();
     }
 }
