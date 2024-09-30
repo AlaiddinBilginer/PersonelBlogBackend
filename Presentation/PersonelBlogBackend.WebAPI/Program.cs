@@ -6,6 +6,7 @@ using PersonelBlogBackend.Infrastructure;
 using PersonelBlogBackend.Persistence;
 using PersonelBlogBackend.WebAPI.Configurations.ColumnWriters;
 using PersonelBlogBackend.WebAPI.Extensions;
+using PersonelBlogBackend.WebAPI.Middlewares.CustomExceptionMiddleware;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core;
@@ -56,6 +57,8 @@ builder.Services.AddHttpLogging(logging =>
     logging.CombineLogs = true;
 });
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -87,6 +90,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler(opt => { });
 
 app.UseSerilogRequestLogging();
 
