@@ -15,7 +15,7 @@ namespace PersonelBlogBackend.Application.Features.Posts.Queries.GetAllPost
         {
             int totalCount = _postReadRepository.GetAll().Count();
                 
-            var posts = _postReadRepository.GetAll(false).OrderBy(p => p.Id)
+            var posts = _postReadRepository.GetAll(false).OrderByDescending(p => p.CreatedDate)
                 .Skip(request.Pagination.Page * request.Pagination.Size).Take(request.Pagination.Size);
 
             return new GetAllPostQueryResponse

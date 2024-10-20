@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.IdentityModel.Tokens;
 using PersonelBlogBackend.Application;
 using PersonelBlogBackend.Infrastructure;
+using PersonelBlogBackend.Infrastructure.Services.Storage.Local;
 using PersonelBlogBackend.Persistence;
 using PersonelBlogBackend.WebAPI.Configurations.ColumnWriters;
 using PersonelBlogBackend.WebAPI.Extensions;
@@ -19,6 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
+builder.Services.AddStorage<LocalStorage>();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => 
     policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
@@ -96,6 +98,8 @@ app.UseExceptionHandler(opt => { });
 app.UseSerilogRequestLogging();
 
 app.UseHttpLogging();
+
+app.UseStaticFiles();
 
 app.UseCors();
 

@@ -8,5 +8,6 @@ namespace PersonelBlogBackend.Application.Features.Posts.Commands.CreatePost
 {
     public class CreatePostCommandResponse
     {
+        public Guid Id { get; set; }
     }
 }

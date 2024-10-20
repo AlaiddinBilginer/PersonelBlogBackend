@@ -6,11 +6,6 @@ using PersonelBlogBackend.Domain.Entities.Identity;
 using PersonelBlogBackend.Persistence.Contexts;
 using PersonelBlogBackend.Persistence.Repositories;
 using PersonelBlogBackend.Persistence.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonelBlogBackend.Persistence
 {
@@ -33,6 +28,9 @@ namespace PersonelBlogBackend.Persistence
             services.AddScoped<IPostWriteRepository, PostWriteRepository>();
 
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IPostImageReadRepository, PostImageReadRepository>();
+            services.AddScoped<IPostImageWriteRepository, PostImageWriteRepository>();
         }
     }
 }

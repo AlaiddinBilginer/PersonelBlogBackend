@@ -43,7 +43,7 @@ namespace PersonelBlogBackend.Infrastructure.Services.Auth
                 return new AuthResponse { Succeeded = false, Message = "Hatalı şifre girdiniz" };
 
             Token token = _tokenHandler.CreateAccessToken(accessTokenLifetime, user);
-            await _userService.RenewRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 15);
+            await _userService.RenewRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 150);
 
             return new AuthResponse { Succeeded = true, Token = token };
         }
@@ -75,7 +75,7 @@ namespace PersonelBlogBackend.Infrastructure.Services.Auth
             if (user != null && user.RefreshTokenEndDate > DateTime.UtcNow)
             {
                 Token token = _tokenHandler.CreateAccessToken(15, user);
-                await _userService.RenewRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 30);
+                await _userService.RenewRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 150);
                 return new AuthResponse { Succeeded = true, Token = token };
             }
             else

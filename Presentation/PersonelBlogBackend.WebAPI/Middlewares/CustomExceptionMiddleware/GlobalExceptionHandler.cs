@@ -21,6 +21,7 @@ namespace PersonelBlogBackend.WebAPI.Middlewares.CustomExceptionMiddleware
 
             var message = exception switch
             {
+               ArgumentException => "Argument Exception",
                 _ => "Internal Server Error"
             };
 

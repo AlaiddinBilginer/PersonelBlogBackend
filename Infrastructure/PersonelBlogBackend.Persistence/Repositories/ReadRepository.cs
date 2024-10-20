@@ -32,12 +32,15 @@ namespace PersonelBlogBackend.Persistence.Repositories
 
         public async Task<T> GetByIdAsync(string id, bool tracking = true)
         {
+            if (!Guid.TryParse(id, out var guidId))
+                throw new ArgumentException("Invalid Guid format", nameof(id));
+
             var query = Table.AsQueryable();
 
-            if(!tracking)
+            if (!tracking)
                 query = query.AsNoTracking();
 
-            return await query.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+            return await query.FirstOrDefaultAsync(data => data.Id == guidId);
         }
 
         public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate, bool tracking = true)

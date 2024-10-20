@@ -25,7 +25,7 @@ namespace PersonelBlogBackend.Infrastructure.Services
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
-            token.Expiration = DateTime.UtcNow.AddSeconds(accessTokenLifetime);
+            token.Expiration = DateTime.UtcNow.AddMinutes(accessTokenLifetime);
 
             JwtSecurityToken securityToken = new(
                 audience: _configuration["Token:Audience"],

@@ -20,16 +20,21 @@ namespace PersonelBlogBackend.Application.Features.Posts.Commands.CreatePost
 
         public async Task<CreatePostCommandResponse> Handle(CreatePostCommandRequest request, CancellationToken cancellationToken)
         {
+            Guid id = Guid.NewGuid();
 
             await _postWriteRepository.AddAsync(new Post()
             {
+                Id = id,
                 Title = request.Title,
                 Content = request.Content,
             });
 
             await _postWriteRepository.SaveAsync();
 
-            return new CreatePostCommandResponse();
+            return new CreatePostCommandResponse()
+            {
+                Id = id
+            };
         }
     }
 }

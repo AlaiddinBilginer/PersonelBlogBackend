@@ -22,38 +22,44 @@ namespace PersonelBlogBackend.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll([FromQuery] GetAllPostQueryRequest getAllPostQueryRequest)
         {
             GetAllPostQueryResponse response = await _mediator.Send(getAllPostQueryRequest);
             return Ok(response);
         }
 
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById([FromRoute] GetByIdPostQueryRequest getByIdPostQueryRequest)
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(string id)
         {
-            GetByIdPostQueryResponse response = await _mediator.Send(getByIdPostQueryRequest);
+            GetByIdPostQueryRequest request = new GetByIdPostQueryRequest();
+            request.Id = id;
+
+            GetByIdPostQueryResponse response = await _mediator.Send(request);
             return Ok(response);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreatePostCommandRequest createPostCommandRequest)
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create([FromBody] CreatePostCommandRequest createPostCommandRequest)
         {
-            await _mediator.Send(createPostCommandRequest);
-            return StatusCode((int)HttpStatusCode.Created);
+            CreatePostCommandResponse resnpose = await _mediator.Send(createPostCommandRequest);
+            return Ok(resnpose);
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public async Task<IActionResult> Update([FromBody] UpdatePostCommandRequest updatePostCommandRequest)
         {
             await _mediator.Send(updatePostCommandRequest);
             return Ok();
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete([FromRoute] DeletePostCommandRequest deletePostCommandRequest)
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete(string id)
         {
-            await _mediator.Send(deletePostCommandRequest);
+            DeletePostCommandRequest request = new DeletePostCommandRequest();
+            request.Id = id;
+
+            await _mediator.Send(request);
             return Ok();
         }
     }

@@ -23,7 +23,7 @@ namespace PersonelBlogBackend.Persistence.Services
             if (user != null)
             {
                 user.RefreshToken = refreshToken;
-                user.RefreshTokenEndDate = accessTokenExpiryDate.AddSeconds(addOnAccessTokenDate);
+                user.RefreshTokenEndDate = accessTokenExpiryDate.AddMinutes(addOnAccessTokenDate);
                 await _userManager.UpdateAsync(user);
             }
             else
