@@ -5,6 +5,7 @@ namespace PersonelBlogBackend.Application.Features.PostImages.Commands.UploadPos
 {
     public class UploadPostImageCommandRequest : IRequest<UploadPostImageCommandResponse>
     {
+        public string PostId { get; set; }
         public IFormFileCollection Files { get; set; }
     }
 }

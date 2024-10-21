@@ -9,6 +9,9 @@ namespace PersonelBlogBackend.Domain.Entities
         public string Path { get; set; }
         public string Storage { get; set; }
 
+        public Post Post { get; set; }
+        public Guid PostId { get; set; }
+
         [NotMapped]
         public override DateTime UpdatedDate { get => base.UpdatedDate; set => base.UpdatedDate = value; }
     }
