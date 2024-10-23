@@ -40,6 +40,7 @@ namespace PersonelBlogBackend.WebAPI.Controllers
         }
 
         [HttpPost("Create")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreatePostCommandRequest createPostCommandRequest)
         {
             CreatePostCommandResponse resnpose = await _mediator.Send(createPostCommandRequest);
@@ -47,6 +48,7 @@ namespace PersonelBlogBackend.WebAPI.Controllers
         }
 
         [HttpPut("Update")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Update([FromBody] UpdatePostCommandRequest updatePostCommandRequest)
         {
             await _mediator.Send(updatePostCommandRequest);
@@ -54,6 +56,7 @@ namespace PersonelBlogBackend.WebAPI.Controllers
         }
 
         [HttpDelete("Delete")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             DeletePostCommandRequest request = new DeletePostCommandRequest();

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PersonelBlogBackend.Application.Features.PostImages.Commands.UploadPostImage;
+using PersonelBlogBackend.Application.Repositories;
 
 namespace PersonelBlogBackend.WebAPI.Controllers
 {
