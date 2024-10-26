@@ -134,6 +134,10 @@ namespace PersonelBlogBackend.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
@@ -148,6 +152,8 @@ namespace PersonelBlogBackend.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("PostId");
 
@@ -292,6 +298,10 @@ namespace PersonelBlogBackend.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
@@ -307,6 +317,8 @@ namespace PersonelBlogBackend.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Posts");
                 });
@@ -431,13 +443,32 @@ namespace PersonelBlogBackend.Persistence.Migrations
 
             modelBuilder.Entity("PersonelBlogBackend.Domain.Entities.Comment", b =>
                 {
+                    b.HasOne("PersonelBlogBackend.Domain.Entities.Identity.ApplicationUser", "ApplicationUser")
+                        .WithMany("Comments")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PersonelBlogBackend.Domain.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ApplicationUser");
+
                     b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("PersonelBlogBackend.Domain.Entities.Post", b =>
+                {
+                    b.HasOne("PersonelBlogBackend.Domain.Entities.Identity.ApplicationUser", "ApplicationUser")
+                        .WithMany("Posts")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("PersonelBlogBackend.Domain.Entities.PostImage", b =>
@@ -464,6 +495,13 @@ namespace PersonelBlogBackend.Persistence.Migrations
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PersonelBlogBackend.Domain.Entities.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("PersonelBlogBackend.Domain.Entities.Post", b =>

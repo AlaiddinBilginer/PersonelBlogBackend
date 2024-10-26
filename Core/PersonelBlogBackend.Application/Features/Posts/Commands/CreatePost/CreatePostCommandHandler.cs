@@ -25,6 +25,7 @@ namespace PersonelBlogBackend.Application.Features.Posts.Commands.CreatePost
             await _postWriteRepository.AddAsync(new Post()
             {
                 Id = id,
+                ApplicationUserId = request.ApplicationUserId,
                 Title = request.Title,
                 Content = request.Content,
             });

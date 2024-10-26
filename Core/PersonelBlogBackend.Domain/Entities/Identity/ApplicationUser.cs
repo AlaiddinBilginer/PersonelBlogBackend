@@ -23,5 +23,8 @@ namespace PersonelBlogBackend.Domain.Entities.Identity
         public bool IsActive { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenEndDate { get; set; }
+
+        public ICollection<Post> Posts { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

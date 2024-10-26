@@ -40,7 +40,7 @@ namespace PersonelBlogBackend.WebAPI.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize(AuthenticationSchemes = "Admin")]
+        //[Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreatePostCommandRequest createPostCommandRequest)
         {
             CreatePostCommandResponse resnpose = await _mediator.Send(createPostCommandRequest);

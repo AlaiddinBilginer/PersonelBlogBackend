@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PersonelBlogBackend.Application.DTOs.Posts;
 using PersonelBlogBackend.Application.Repositories;
@@ -23,13 +24,18 @@ namespace PersonelBlogBackend.Application.Features.Posts.Queries.GetAllPost
                 .OrderByDescending(p => p.CreatedDate)
                 .Skip(request.Pagination.Page * request.Pagination.Size)
                 .Take(request.Pagination.Size)
+                .Include(p => p.ApplicationUser)
                 .Select(p => new PostDto()
                 {
                     Id = p.Id,
                     Title = p.Title,
                     Content = p.Content,
                     FirstImage = p.PostImages.FirstOrDefault() != null ? _configuration["StorageUrls:LocalStorage"] + p.PostImages.FirstOrDefault().Path : null,
-                    CreatedDate = p.CreatedDate
+                    CreatedDate = p.CreatedDate,
+                    ApplicationUserId = p.ApplicationUserId,
+                    UserName = p.ApplicationUser.UserName,
+                    FirstName = p.ApplicationUser.FirstName,
+                    LastName = p.ApplicationUser.LastName
                 });
 
             return new GetAllPostQueryResponse
