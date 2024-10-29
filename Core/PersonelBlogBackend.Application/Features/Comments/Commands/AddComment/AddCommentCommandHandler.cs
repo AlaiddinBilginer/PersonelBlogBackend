@@ -23,7 +23,7 @@ namespace PersonelBlogBackend.Application.Features.Comments.Commands.AddComment
             });
             await _commentWriteRepository.SaveAsync();
 
-            return new AddCommentCommandResponse();
+            return new AddCommentCommandResponse() { Succeeded = true, Message = "Yorum ekleme işlemi başarılı bir şekilde gerçekleşti"};
         }
     }
 }

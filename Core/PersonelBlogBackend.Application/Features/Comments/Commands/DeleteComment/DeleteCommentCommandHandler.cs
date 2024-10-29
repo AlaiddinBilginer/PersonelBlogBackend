@@ -16,7 +16,7 @@ namespace PersonelBlogBackend.Application.Features.Comments.Commands.DeleteComme
         {
             await _commentWriteRepository.DeleteByIdAsync(request.Id);
             await _commentWriteRepository.SaveAsync();
-            return new DeleteCommentCommandResponse();
+            return new DeleteCommentCommandResponse() { Succeeded = true, Message = "Yorum silme işlemi başarılı bir şekilde geerçekleşti"};
         }
     }
 }

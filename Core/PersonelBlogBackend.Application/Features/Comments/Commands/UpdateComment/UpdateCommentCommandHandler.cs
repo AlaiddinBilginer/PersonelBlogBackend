@@ -17,8 +17,8 @@ namespace PersonelBlogBackend.Application.Features.Comments.Commands.UpdateComme
 
         public async Task<UpdateCommentCommandResponse> Handle(UpdateCommentCommandRequest request, CancellationToken cancellationToken)
         {
-            Comment comment = await _commentReadRepository.GetByIdAsync(request.Id);
-            if(comment != null)
+            Comment comment = await _commentReadRepository.GetByIdAsync(request.CommentId);
+            if(comment != null && comment.ApplicationUserId == request.ApplicationUserId)
             {
                 comment.Content = request.Content;
                 await _commentWriteRepository.SaveAsync();

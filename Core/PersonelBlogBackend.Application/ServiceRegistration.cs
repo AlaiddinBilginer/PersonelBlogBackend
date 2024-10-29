@@ -9,5 +9,6 @@ namespace PersonelBlogBackend.Application
         {
             services.AddMediatR(typeof(ServiceRegistration));
         }
+
     }
 }
