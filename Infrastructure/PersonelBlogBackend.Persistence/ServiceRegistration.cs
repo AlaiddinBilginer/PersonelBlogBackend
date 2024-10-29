@@ -34,6 +34,9 @@ namespace PersonelBlogBackend.Persistence
 
             services.AddScoped<ICommentReadRepository, CommentReadRepository>();
             services.AddScoped<ICommentWriteRepository, CommentWriteRepository>();
+
+            services.AddScoped<ITagReadRepository, TagReadRepository>();
+            services.AddScoped<ITagWriteRepository, TagWriteRepository>();
         }
     }
 }

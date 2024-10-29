@@ -24,6 +24,7 @@
     <Folder Include="Abstractions\Storage\Cloudinary\" />
     <Folder Include="Features\Auth\Queries\" />
     <Folder Include="Features\PostImages\Queries\" />
+    <Folder Include="Features\Tags\Queries\" />
     <Folder Include="Features\Users\Commands\" />
     <Folder Include="Features\Users\Queries\" />
     <Folder Include="Validators\Posts\" />
