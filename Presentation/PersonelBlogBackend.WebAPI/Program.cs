@@ -1,18 +1,14 @@
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.IdentityModel.Tokens;
 using PersonelBlogBackend.Application;
-using PersonelBlogBackend.Application.Features.Comments.Commands.AddComment;
 using PersonelBlogBackend.Infrastructure;
-using PersonelBlogBackend.Infrastructure.Filters;
 using PersonelBlogBackend.Infrastructure.Services.Storage.Local;
 using PersonelBlogBackend.Persistence;
 using PersonelBlogBackend.WebAPI.Configurations.ColumnWriters;
 using PersonelBlogBackend.WebAPI.Extensions;
 using PersonelBlogBackend.WebAPI.Middlewares.CustomExceptionMiddleware;
 using Serilog;
-using Serilog.Context;
 using Serilog.Core;
 using Serilog.Sinks.PostgreSQL;
 using System.Security.Claims;
@@ -20,6 +16,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddPersistenceServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();

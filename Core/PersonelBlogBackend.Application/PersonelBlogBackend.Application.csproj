@@ -27,7 +27,6 @@
     <Folder Include="Features\Tags\Queries\" />
     <Folder Include="Features\Users\Commands\" />
     <Folder Include="Features\Users\Queries\" />
-    <Folder Include="Validators\Posts\" />
   </ItemGroup>
 
 </Project>

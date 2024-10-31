@@ -32,8 +32,8 @@ namespace PersonelBlogBackend.Application.Features.Tags.Commands.CreateTag
                 return new CreateTagCommandErrorResponse() { Message = "Blog bulunamadı" };
             }
 
-            var existingPostTags = post.Tags.ToHashSet();
-            var tagTitles = request.Tags.ToHashSet();
+            HashSet<Tag> existingPostTags = post.Tags.ToHashSet();
+            HashSet<string> tagTitles = request.Tags.ToHashSet();
 
             foreach (var tagTitle in tagTitles)
             {
@@ -47,6 +47,11 @@ namespace PersonelBlogBackend.Application.Features.Tags.Commands.CreateTag
 
                 
                 existingPostTags.Add(existingTag);
+            }
+
+            if(existingPostTags.Count > 10)
+            {
+                return new CreateTagCommandErrorResponse() { Message = "Bir bloğun en fazla 10 adet etiketi olabilir" };
             }
 
             post.Tags = existingPostTags;

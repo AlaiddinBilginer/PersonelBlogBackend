@@ -9,7 +9,6 @@ namespace PersonelBlogBackend.Application.Features.Posts.Commands.CreatePost
 {
     public class CreatePostCommandRequest : IRequest<CreatePostCommandResponse>
     {
-        public string ApplicationUserId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
     }
