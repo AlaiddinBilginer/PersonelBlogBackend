@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonelBlogBackend.Application.Features.Tags.Commands.CreateTag;
+using PersonelBlogBackend.Application.Features.Tags.Queries.GetTags;
 
 namespace PersonelBlogBackend.WebAPI.Controllers
 {
@@ -20,6 +21,13 @@ namespace PersonelBlogBackend.WebAPI.Controllers
         public async Task<IActionResult> CreateTags([FromBody]CreateTagCommandRequest request)
         {
             CreateTagCommandResponse response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpGet("GetTags")]
+        public async Task<IActionResult> GetTags([FromQuery]GetTagsQueryRequest request)
+        {
+            GetTagsQueryResponse response = await _mediator.Send(request);
             return Ok(response);
         }
     }

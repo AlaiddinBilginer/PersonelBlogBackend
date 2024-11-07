@@ -18,9 +18,12 @@ namespace PersonelBlogBackend.Application.Features.Posts.Queries.GetAllPost
 
         public async Task<GetAllPostQueryResponse> Handle(GetAllPostQueryRequest request, CancellationToken cancellationToken)   
         {
-            int totalCount = _postReadRepository.GetAll().Count();
+            int totalCount = _postReadRepository.GetAll()
+                .Where(p => string.IsNullOrEmpty(request.TagTitle) || p.Tags.Any(tag => tag.Title == request.TagTitle))
+                .Count();
 
             var posts = _postReadRepository.GetAll(false)
+                .Where(p => string.IsNullOrEmpty(request.TagTitle) || p.Tags.Any(tag => tag.Title == request.TagTitle))
                 .OrderByDescending(p => p.CreatedDate)
                 .Skip(request.Pagination.Page * request.Pagination.Size)
                 .Take(request.Pagination.Size)
