@@ -7,8 +7,6 @@ namespace PersonelBlogBackend.Application.Validators.Comments
     {
         public AddCommentCommandRequestValidator()
         {
-            RuleFor(x => x.ApplicationUserId).NotEmpty();
-
             RuleFor(x => x.PostId).NotEmpty();
 
             RuleFor(x => x.Content)

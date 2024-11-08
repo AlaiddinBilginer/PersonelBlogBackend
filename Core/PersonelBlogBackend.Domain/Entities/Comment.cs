@@ -1,10 +1,5 @@
 ﻿using PersonelBlogBackend.Domain.Entities.Common;
 using PersonelBlogBackend.Domain.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PersonelBlogBackend.Domain.Entities
 {
@@ -17,5 +12,10 @@ namespace PersonelBlogBackend.Domain.Entities
 
         public Guid PostId { get; set; }
         public Post Post { get; set; }
+
+        public Guid? ParentCommentId { get; set; }
+        public Comment ParentComment { get; set; }
+
+        public ICollection<Comment> Replies { get; set; }
     }
 }

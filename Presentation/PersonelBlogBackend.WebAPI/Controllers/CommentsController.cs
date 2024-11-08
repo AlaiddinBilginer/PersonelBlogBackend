@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonelBlogBackend.Application.Features.Comments.Commands.AddComment;
 using PersonelBlogBackend.Application.Features.Comments.Commands.DeleteComment;
@@ -26,14 +27,16 @@ namespace PersonelBlogBackend.WebAPI.Controllers
         }
 
         [HttpPost("Add")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Add([FromBody]AddCommentCommandRequest request)
         {
             AddCommentCommandResponse response = await _mediator.Send(request);
             return Ok(response);
         }
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("Delete/{id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        public async Task<IActionResult> Delete([FromRoute]string id)
         {
             DeleteCommentCommandRequest request = new DeleteCommentCommandRequest();
             request.Id = id;
@@ -43,6 +46,7 @@ namespace PersonelBlogBackend.WebAPI.Controllers
         }
 
         [HttpPut("Update")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Update([FromBody]UpdateCommentCommandRequest request)
         {
             UpdateCommentCommandResponse response = await _mediator.Send(request);

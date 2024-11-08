@@ -33,7 +33,12 @@ namespace PersonelBlogBackend.Infrastructure.Services
                 expires: token.Expiration,
                 notBefore: DateTime.UtcNow,
                 signingCredentials: signingCredentials,
-                claims: new List<Claim> { new(ClaimTypes.Name, user.UserName)}
+                claims: new List<Claim> {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("ProfilePictureUrl", user.ProfilePictureUrl ?? string.Empty)
+
+                }
             );
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();

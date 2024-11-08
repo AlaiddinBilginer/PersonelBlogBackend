@@ -26,6 +26,7 @@ namespace PersonelBlogBackend.Application.Features.Comments.Queries.GetAllByPost
                 .Select(c => new CommentListDto()
                 {
                     Id = c.Id,
+                    ApplicationUserId = c.ApplicationUserId,
                     Content = c.Content,
                     CreatedDate = c.CreatedDate,
                     UpdatedDate = c.UpdatedDate,

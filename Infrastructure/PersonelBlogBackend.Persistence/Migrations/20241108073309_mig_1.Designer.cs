@@ -12,7 +12,7 @@ using PersonelBlogBackend.Persistence.Contexts;
 namespace PersonelBlogBackend.Persistence.Migrations
 {
     [DbContext(typeof(PersonelBlogDbContext))]
-    [Migration("20241025153043_mig_1")]
+    [Migration("20241108073309_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -148,6 +148,9 @@ namespace PersonelBlogBackend.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid?>("ParentCommentId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
@@ -157,6 +160,8 @@ namespace PersonelBlogBackend.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ParentCommentId");
 
                     b.HasIndex("PostId");
 
@@ -452,6 +457,10 @@ namespace PersonelBlogBackend.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PersonelBlogBackend.Domain.Entities.Comment", "ParentComment")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentCommentId");
+
                     b.HasOne("PersonelBlogBackend.Domain.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
@@ -459,6 +468,8 @@ namespace PersonelBlogBackend.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("ParentComment");
 
                     b.Navigation("Post");
                 });
@@ -498,6 +509,11 @@ namespace PersonelBlogBackend.Persistence.Migrations
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PersonelBlogBackend.Domain.Entities.Comment", b =>
+                {
+                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("PersonelBlogBackend.Domain.Entities.Identity.ApplicationUser", b =>
