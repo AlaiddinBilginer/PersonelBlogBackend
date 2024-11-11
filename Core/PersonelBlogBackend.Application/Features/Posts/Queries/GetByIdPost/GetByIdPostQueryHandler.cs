@@ -29,9 +29,9 @@ namespace PersonelBlogBackend.Application.Features.Posts.Queries.GetByIdPost
         {
             var post = await _postReadRepository.Table
                 .Where(p => p.Id == Guid.Parse(request.Id))
-                .Include(p => p.Comments)
                 .Include(p => p.Tags)
                 .Include(p => p.PostImages)
+                .Include(p => p.ApplicationUser)
                 .Select(p => new GetByIdPostQueryResponse
                 {
                     Id = p.Id,
@@ -39,11 +39,6 @@ namespace PersonelBlogBackend.Application.Features.Posts.Queries.GetByIdPost
                     Content = p.Content,
                     CreatedDate = p.CreatedDate,
                     UpdatedDate = p.UpdatedDate,
-                    Comments = p.Comments.Select(c => new CommentDto
-                    {
-                        Id = c.Id,
-                        Content = c.Content
-                    }).ToList(),
                     Tags = p.Tags.Select(t => new TagDto
                     {
                         Id = t.Id,
@@ -52,7 +47,11 @@ namespace PersonelBlogBackend.Application.Features.Posts.Queries.GetByIdPost
                     PostImages = p.PostImages.Select(pi => new PostImageDto
                     {
                         Path = _configuration["StorageUrls:LocalStorage"] + pi.Path
-                    }).ToList()
+                    }).ToList(),
+                    UserName = p.ApplicationUser.UserName,
+                    FirstName = p.ApplicationUser.FirstName,
+                    LastName = p.ApplicationUser.LastName,
+                    ProfilePictureUrl = p.ApplicationUser.ProfilePictureUrl
                 })
                 .FirstOrDefaultAsync();
 
